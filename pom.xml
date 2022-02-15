@@ -9,9 +9,9 @@
 		<version>2.1.2.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.dropshipping</groupId>
-	<artifactId>dropshipping</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>com.strider</groupId>
+	<artifactId>strider</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>strider</name>
 	<description>Strider for Spring Boot</description>
 
