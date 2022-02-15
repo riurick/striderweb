@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.strider.user.User;
+import com.strider.user.UserData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,11 +28,11 @@ public class Follow {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_followed_id")
 	@Fetch(FetchMode.JOIN)
-	private User userFollowed;
+	private UserData userFollowed;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_following_id")
 	@Fetch(FetchMode.JOIN)
-	private User userFollowing;
+	private UserData userFollowing;
 	
 }

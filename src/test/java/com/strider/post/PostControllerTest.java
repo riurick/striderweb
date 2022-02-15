@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.strider.BaseTestRestController;
 import com.strider.StriderApplication;
-import com.strider.user.User;
+import com.strider.user.UserData;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
 public class PostControllerTest extends BaseTestRestController{
 
 	Post post;
-	User user;
+	UserData user;
 	
 	@MockBean
 	private PostRepository repository;
@@ -41,7 +41,7 @@ public class PostControllerTest extends BaseTestRestController{
 	public void setup() throws Exception {
 		super.setup();
 		
-		user = new User();
+		user = new UserData();
 		user.setId(1);
 		user.setUsername("username");
 		

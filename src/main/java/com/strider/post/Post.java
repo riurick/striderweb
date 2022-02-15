@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import com.strider.user.User;
+import com.strider.user.UserData;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,7 +45,7 @@ public class Post {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
 	@Fetch(FetchMode.JOIN)
-	private User user;
+	private UserData user;
 	
 	@NotNull
 	private Date publiDate;

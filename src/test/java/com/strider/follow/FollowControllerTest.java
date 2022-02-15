@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import com.strider.BaseTestRestController;
 import com.strider.StriderApplication;
 import com.strider.post.Post;
-import com.strider.user.User;
+import com.strider.user.UserData;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes =StriderApplication.class)
@@ -32,8 +32,8 @@ import com.strider.user.User;
 public class FollowControllerTest extends BaseTestRestController{
 
 	Follow follow;
-	User userFollowed;
-	User userFollowing;
+	UserData userFollowed;
+	UserData userFollowing;
 	
 	@MockBean
 	private FollowRepository repository;
@@ -42,11 +42,11 @@ public class FollowControllerTest extends BaseTestRestController{
 	public void setup() throws Exception {
 		super.setup();
 		
-		userFollowed = new User();
+		userFollowed = new UserData();
 		userFollowed.setId(1);
 		userFollowed.setUsername("username");
 		
-		userFollowing = new User();
+		userFollowing = new UserData();
 		userFollowing.setId(2);
 		userFollowing.setUsername("username2");
 		
