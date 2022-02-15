@@ -30,4 +30,12 @@ public class PostService {
 		}
 		return repository.save(post);
 	}
+	
+	public List<Post> all() {
+		return repository.findAll();
+	}
+	
+	public List<Post> listByFollowing(Integer userId) {
+		return repository.findFollowingPostsByUserId(userId);
+	}
 }
