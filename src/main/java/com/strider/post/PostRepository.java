@@ -15,4 +15,6 @@ public interface PostRepository extends JpaRepository<Post, Integer>{
 			+ " join Follow f on f.userFollowing.id = p.user.id "
 			+ " where p.user.id = :idUser ")
 	List<Post> findFollowingPostsByUserId(Integer idUser);
+
+	List<Post> findByUserId(Integer id);
 }

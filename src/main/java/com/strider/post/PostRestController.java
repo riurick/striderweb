@@ -39,7 +39,7 @@ public class PostRestController {
 	private MessagesService messages;
 	
 	@PostMapping
-	@ApiOperation(value = "Create post")
+	@ApiOperation(value = "Create a post", notes = "a valid post must be informed", response = Post.class)
 	public ResponseEntity<ServiceResponse<Post>> save(@RequestBody @Valid Post post) throws RegraNegocioException {
 
 		post = service.save(post);
@@ -56,13 +56,21 @@ public class PostRestController {
 	}
 	
 	@GetMapping()
-	@ApiOperation(value= "List all posts")
+	@ApiOperation(value= "List all posts for home page", response = Post.class)
 	public ResponseEntity<ServiceResponse<List<Post>>> all() {
 		return ResponseEntity.ok(new ServiceResponse<>(service.all()));
 	}
 	
 	@GetMapping("/following/{id}")
+	@ApiOperation(value= "List the posts by those user (id) follow ",notes = "id must be informed", response = Post.class)
 	public ResponseEntity<ServiceResponse<List<Post>>> following(@PathVariable Integer id) {
 		return ResponseEntity.ok(new ServiceResponse<>(service.listByFollowing(id)));
 	}
+	
+	@GetMapping("/user/{id}")
+	@ApiOperation(value= "List the user's posts",notes = "id must be informed", response = Post.class)
+	public ResponseEntity<ServiceResponse<List<Post>>> findByUser(@PathVariable Integer id) {
+		return ResponseEntity.ok(new ServiceResponse<>(service.findByUser(id)));
+	}
+	
 }

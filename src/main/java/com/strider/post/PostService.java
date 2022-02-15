@@ -38,4 +38,8 @@ public class PostService {
 	public List<Post> listByFollowing(Integer userId) {
 		return repository.findFollowingPostsByUserId(userId);
 	}
+
+	public List<Post> findByUser(Integer id) {
+		return repository.findByUserId(id);
+	}
 }
