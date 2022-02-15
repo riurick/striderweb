@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Fetch;
@@ -33,13 +34,14 @@ public class Post {
 	@Size(max = 777)
 	private String text;
 	
+	@Null
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@JoinColumn(name="post_id")
 	@Fetch(FetchMode.JOIN)
 	private Post post;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@JoinColumn(name="user_id")
 	@Fetch(FetchMode.JOIN)
 	private User user;
 	

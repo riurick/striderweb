@@ -26,12 +26,12 @@ public class Follow {
 	private Integer id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@JoinColumn(name="user_followed_id")
 	@Fetch(FetchMode.JOIN)
 	private User userFollowed;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="id")
+	@JoinColumn(name="user_following_id")
 	@Fetch(FetchMode.JOIN)
 	private User userFollowing;
 	
