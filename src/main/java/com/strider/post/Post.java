@@ -4,6 +4,8 @@ package com.strider.post;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,6 +49,10 @@ public class Post {
 	
 	@NotNull
 	private Date publiDate;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private TypeEnum typePost;
 	
 	
 	

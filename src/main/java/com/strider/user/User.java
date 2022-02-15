@@ -7,16 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
 public class User {
 
 	@Id
@@ -25,6 +24,7 @@ public class User {
 	
 	@NotNull
 	@Size(max = 14)
+	@Pattern(regexp = "{A-Za-z0-9}*")
 	private String username;
 	
 	@NotNull
