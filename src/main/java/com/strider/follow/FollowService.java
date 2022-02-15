@@ -1,5 +1,7 @@
 package com.strider.follow;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +30,10 @@ public class FollowService {
 	
 	public void unfollowing(Integer id) {
 		repository.deleteById(id);
+	}
+
+	public Boolean isFollowing(Integer idUser, Integer idOther) {
+		Optional<Follow> op = repository.findByUserFollowedIdAndUserFollowingId(idUser, idOther);
+		return op.isPresent();
 	}
 }

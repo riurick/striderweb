@@ -7,10 +7,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.strider.exception.RegraNegocioException;
@@ -36,7 +38,7 @@ public class FollowRestController {
 	private MessagesService messages;
 	
 	@PostMapping
-	@ApiOperation(value = "Following user")
+	@ApiOperation(value = "Save following user", notes="Valid follow must be informed", response=Follow.class)
 	public ResponseEntity<ServiceResponse<Follow>> save(@RequestBody @Valid Follow follow) throws RegraNegocioException {
 		
 		follow = service.save(follow);
@@ -47,7 +49,7 @@ public class FollowRestController {
 	}
 	
 	@DeleteMapping("/{id}")
-	@ApiOperation(value = "Unfollowing user")
+	@ApiOperation(value = "Unfollowing user", notes="id must be informed")
 	public ResponseEntity<ServiceResponse<Void>> delete(@PathVariable Integer id) {
 		service.unfollowing(id);
 		ServiceMessage message = new ServiceMessage(messages.get(DELETED));
@@ -55,5 +57,10 @@ public class FollowRestController {
 		return new ResponseEntity<>(new ServiceResponse<>(message), HttpStatus.OK);
 	}
 
-	
+	@GetMapping("/following")
+	@ApiOperation(value = "get TRUE if user follows other, else FALSE", notes="ids must be informed", response=Boolean.class)
+	public ResponseEntity<ServiceResponse<Boolean>> isFollowing(@RequestParam(value = "idUser") Integer idUser, 
+			@RequestParam(value = "idOther") Integer idOther) {
+		return ResponseEntity.ok(new ServiceResponse<>(service.isFollowing(idUser, idOther)));
+	}
 }
