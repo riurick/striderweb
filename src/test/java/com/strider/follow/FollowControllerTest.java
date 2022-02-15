@@ -3,11 +3,14 @@ package com.strider.follow;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,6 +59,8 @@ public class FollowControllerTest extends BaseTestRestController{
 		follow.setUserFollowing(userFollowing);
 		
 		when(repository.save(Mockito.any(Follow.class))).thenReturn(follow);
+		when(repository.findByUserFollowedIdAndUserFollowingId(Mockito.anyInt(), Mockito.anyInt())).thenReturn(Optional.of(follow));
+		doNothing().when(repository).deleteById(Mockito.anyInt());
 		
 	}
 	
@@ -80,5 +85,21 @@ public class FollowControllerTest extends BaseTestRestController{
 				.andExpect(status().isNotAcceptable())
 				.andReturn();
 		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.NOT_ACCEPTABLE.value());
+	}
+	
+	@Test
+	public void unfollowing() throws Exception {
+		MvcResult result = mockMvc.perform(delete("/api/v1/follow/101"))
+				.andExpect(status().isOk())
+				.andReturn();
+		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+	}
+	
+	@Test
+	public void findByUser() throws Exception {
+		MvcResult result = mockMvc.perform(get("/api/v1/follow/following?idUser=100&idOther=102"))
+				.andExpect(status().isOk())
+				.andReturn();
+		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
 	}
 }

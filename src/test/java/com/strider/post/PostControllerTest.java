@@ -1,8 +1,10 @@
 package com.strider.post;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -42,19 +44,22 @@ public class PostControllerTest extends BaseTestRestController{
 		super.setup();
 		
 		user = new UserData();
-		user.setId(1);
+		user.setId(1000);
 		user.setUsername("username");
 		
 		post = new Post();
-		post.setId(1);
+		post.setId(1000);
 		post.setPubliDate(new Date());
 		post.setText("test text");
 		post.setUser(user);
+		post.setTypePost(TypeEnum.POST);
 		
 		when(repository.findAll()).thenReturn(Arrays.asList(new Post[] {post}));
+		
 		when(repository.findFollowingPostsByUserId(Mockito.anyInt())).thenReturn(Arrays.asList(new Post[] {post}));
 		when(repository.save(Mockito.any(Post.class))).thenReturn(post);
 		when(repository.findByUserIdAndPubliDate(Mockito.anyInt(), Mockito.any(Date.class))).thenReturn(new ArrayList<>());
+		when(repository.findByUserId(Mockito.anyInt())).thenReturn(Arrays.asList(new Post[] {post}));
 		
 	}
 	
@@ -62,7 +67,7 @@ public class PostControllerTest extends BaseTestRestController{
 	public void create() throws Exception {
 		MvcResult result = mockMvc.perform(post("/api/v1/post")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(asJsonString(post)))
+				.content(asJsonString(post))).andDo(print())
 				.andExpect(status().isCreated())
 				.andReturn();
 		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.CREATED.value());
@@ -90,7 +95,15 @@ public class PostControllerTest extends BaseTestRestController{
 	
 	@Test
 	public void following() throws Exception {
-		MvcResult result = mockMvc.perform(get("/api/v1/post/following/1"))
+		MvcResult result = mockMvc.perform(get("/api/v1/post/following/100"))
+				.andExpect(status().isOk())
+				.andReturn();
+		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+	}
+	
+	@Test
+	public void findByUser() throws Exception {
+		MvcResult result = mockMvc.perform(get("/api/v1/post/user/100"))
 				.andExpect(status().isOk())
 				.andReturn();
 		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
