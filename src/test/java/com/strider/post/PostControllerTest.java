@@ -1,6 +1,7 @@
 package com.strider.post;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,6 +51,8 @@ public class PostControllerTest extends BaseTestRestController{
 		post.setText("test text");
 		post.setUser(user);
 		
+		when(repository.findAll()).thenReturn(Arrays.asList(new Post[] {post}));
+		when(repository.findFollowingPostsByUserId(Mockito.anyInt())).thenReturn(Arrays.asList(new Post[] {post}));
 		when(repository.save(Mockito.any(Post.class))).thenReturn(post);
 		when(repository.findByUserIdAndPubliDate(Mockito.anyInt(), Mockito.any(Date.class))).thenReturn(new ArrayList<>());
 		
@@ -75,5 +78,21 @@ public class PostControllerTest extends BaseTestRestController{
 				.andExpect(status().isNotAcceptable())
 				.andReturn();
 		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.NOT_ACCEPTABLE.value());
+	}
+	
+	@Test
+	public void all() throws Exception {
+		MvcResult result = mockMvc.perform(get("/api/v1/post"))
+				.andExpect(status().isOk())
+				.andReturn();
+		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
+	}
+	
+	@Test
+	public void following() throws Exception {
+		MvcResult result = mockMvc.perform(get("/api/v1/post/following/1"))
+				.andExpect(status().isOk())
+				.andReturn();
+		assertThat(result.getResponse().getStatus()).isEqualTo(HttpStatus.OK.value());
 	}
 }
