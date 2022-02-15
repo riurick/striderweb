@@ -13,7 +13,7 @@ import com.strider.service.MessagesService;
 @Service
 public class PostService {
 
-	private static final int MAX_DAILY = 5;
+	private static final int MAX_DAILY = 4;
 	private static final String NOT_ALLOWED = "post.notAllowed";
 	
 	@Autowired

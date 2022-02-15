@@ -95,7 +95,7 @@ public class CustomizedMessagesExceptionHandler extends ResponseEntityExceptionH
 		} else {
 			serviceMessages.add(new ServiceMessage(MessageType.WARN, errorStack));
 		}
-		return new ResponseEntity<>(new ServiceResponse<>(serviceMessages), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(new ServiceResponse<>(serviceMessages), HttpStatus.NOT_ACCEPTABLE);
 	}
 
 	@ExceptionHandler(Exception.class)
